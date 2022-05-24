@@ -1,0 +1,33 @@
+<FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$">
+Header set Cache-Control "max-age=604800, public"
+</FilesMatch>
+<IfModule mod_php5.c>
+    php_value session.cookie_lifetime 1200
+    php_value session.gc_maxlifetime 1200
+</IfModule>
+<IfModule mod_rewrite.c>
+
+RewriteEngine On
+
+#RewriteCond %{HTTPS} off
+#RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+#RewriteCond %{HTTP_HOST} !^www\.
+#RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
+
+RewriteRule sitemap.xml sitemap.php [L]
+RewriteCond $1 !^(images|assets)
+RewriteRule ^([_A-Za-z0-9-]+)$ index.php?url=$1 [L]
+RewriteRule ^([_A-Za-z0-9-]+)/([_A-Za-z0-9-]+)$ index.php?url=$1&cat=$2 [L]
+RewriteRule ^([_A-Za-z0-9-]+)/([_A-Za-z0-9-]+)/([_A-Za-z0-9-]+)$ index.php?url=$1&cat=$2&action=$3 [L]
+
+RewriteCond %{HTTPS} off
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+</IfModule>
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php72” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php72 .php .php7 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
