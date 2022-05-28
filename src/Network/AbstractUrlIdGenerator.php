@@ -247,15 +247,12 @@ abstract class AbstractUrlIdGenerator implements UrlIdGenerator
     {
         $protocol = (0 === \strpos($url, self::PROTOCOL_HTTPS) ? self::PROTOCOL_HTTPS : self::PROTOCOL_HTTP);
 
-        $defaultPort = (self::PROTOCOL_HTTPS === $protocol ? self::PORT_HTTPS : self::PORT_HTTP);
-        $actualPort = '1337';
+        $defaultPort = (int)(self::PROTOCOL_HTTPS === $protocol ? self::PORT_HTTPS : self::PORT_HTTP);
+
+        //Get actual port
+        $actualPort = (int)parse_url($url, PHP_URL_PORT);
 
         return [$defaultPort, $actualPort];
-    }
-
-    private function getPort(string $url): string{
-
-        return "";
     }
 
     /**
@@ -264,13 +261,14 @@ abstract class AbstractUrlIdGenerator implements UrlIdGenerator
     private function hasProtocol(string $url, ?string $protocol = null): bool
     {
 
-        if ($protocol == self::PROTOCOL_HTTPS && substr($url, 0, 8) == $protocol)
+        if ($protocol == self::PROTOCOL_HTTPS && substr($url, 0, 8) == $protocol){
             return true;
+        }
 
 
-        if ($protocol == self::PROTOCOL_HTTP && substr($url, 0, 7) == $protocol)
+        if ($protocol == self::PROTOCOL_HTTP && substr($url, 0, 7) == $protocol){
             return true;
-
+        }
 
         return false;
     }
@@ -280,18 +278,16 @@ abstract class AbstractUrlIdGenerator implements UrlIdGenerator
      */
     private function hasUrlParameter(string $url): bool
     {
-        /**if (substr_count(self::PROTOCOL_HTTP, $url) > 1 || substr_count(self::PROTOCOL_HTTPS, $url)> 1)
-         * return true;
-         *
-         * elseif (str_contains(self::PROTOCOL_HTTPS))*/
-        return true;
+        if (parse_url($url, PHP_URL_PATH))
+            return true;
+
+        return false;
     }
 
     private function normalizeUrl(string $url): string
     {
 
         switch (true) {
-
             case $this->hasProtocol($url, self::PROTOCOL_HTTP):
                 $url = $this->removePort($url);
                 break;
@@ -302,16 +298,17 @@ abstract class AbstractUrlIdGenerator implements UrlIdGenerator
 
             // This leads to URLs with non-http protocols being prefixed with http
             // but is the expected behavior at this point and therefore can't be changed
-            case ($this->hasProtocol($url) === false || $this->hasUrlParameter($url)):
+            case (!$this->hasProtocol($url) || $this->hasUrlParameter($url)):
                 $url = $this->removePort(self::PROTOCOL_HTTP . $url);
-
                 break;
+
+
         }
 
         // Replace lowercase ASCII encoded characters with uppercase
         $url = \str_ireplace(self::ASCII_ENCODINGS, self::ASCII_ENCODINGS, $url);
 
-
+        var_dump($url);
         return $url;
     }
 

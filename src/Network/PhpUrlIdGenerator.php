@@ -8,6 +8,7 @@ final class PhpUrlIdGenerator extends AbstractUrlIdGenerator
     {
         //exit($url);
         //$url = 'http://google.de:8080/hh';
+
         $updatedUrl = base_convert(substr(sha1($url), 0, 16), 16, 10);
 
         //var_dump(sha1($url));
