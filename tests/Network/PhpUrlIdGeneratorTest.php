@@ -46,9 +46,9 @@ final class PhpUrlIdGeneratorTest extends TestCase
      */
     public function generate_withValidUrl_returnsUrlId(string $url, string $expectedId) : void
     {
-        $url ='http://semrush.com';
+
         $generatedId = (new PhpUrlIdGenerator())->generate($url);
-        var_dump($url, $generatedId, $expectedId);
+        var_dump('+'.$url);
         //exit();
         self::assertSame(
             $expectedId,
@@ -63,6 +63,8 @@ final class PhpUrlIdGeneratorTest extends TestCase
      */
     public function generate_url($url, $expectedId){
         $generatedId = (new UrlGenerator())->generate($url);
+
+        echo $url;
 
         self::assertSame(
             $expectedId,

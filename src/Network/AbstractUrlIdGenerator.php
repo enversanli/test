@@ -299,6 +299,7 @@ abstract class AbstractUrlIdGenerator implements UrlIdGenerator
             // This leads to URLs with non-http protocols being prefixed with http
             // but is the expected behavior at this point and therefore can't be changed
             case (!$this->hasProtocol($url) || $this->hasUrlParameter($url)):
+
                 $url = $this->removePort(self::PROTOCOL_HTTP . $url);
                 break;
 
@@ -308,7 +309,7 @@ abstract class AbstractUrlIdGenerator implements UrlIdGenerator
         // Replace lowercase ASCII encoded characters with uppercase
         $url = \str_ireplace(self::ASCII_ENCODINGS, self::ASCII_ENCODINGS, $url);
 
-        var_dump($url);
+
         return $url;
     }
 
