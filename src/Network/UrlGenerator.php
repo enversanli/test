@@ -9,14 +9,17 @@ class UrlGenerator implements UrlIdGenerator
     public function generate(string $url): string
     {
         try {
-            $url = 'https://enversanli.com';
+            //$url = 'https://enversanli.com';
 
-            if ($this->checkProtocol($url)) {
-                $url = $this->removePort($url);
+            if (!$this->checkProtocol($url)) {
+                $url = self::PROTOCOL_HTTP. $url;
             }
 
-            $updatedUrl = $this->generateId($url);
+            //Remove Port
+            $url = $this->removePort($url);
 
+            // Generate ID
+            $updatedUrl = $this->generateId($url);
         } catch (\Exception $exception) {
             // Log error
             HelperTool::logger($exception->getMessage());
