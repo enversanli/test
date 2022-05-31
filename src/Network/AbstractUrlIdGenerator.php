@@ -261,6 +261,7 @@ abstract class AbstractUrlIdGenerator extends AbstractUrlGenerator implements Ur
      */
     private function hasProtocol(string $url, ?string $protocol = null): bool
     {
+
         if ($protocol == self::PROTOCOL_HTTPS && substr($url, 0, 8) == $protocol) {
             return true;
         }
@@ -277,15 +278,22 @@ abstract class AbstractUrlIdGenerator extends AbstractUrlGenerator implements Ur
      */
     private function hasUrlParameter(string $url): bool
     {
-        if (parse_url($url, PHP_URL_PATH))
+        $query = parse_url($url, PHP_URL_QUERY);
+
+        if ($query && (str_contains($query, self::PROTOCOL_HTTP) ||
+                str_contains($query, self::PROTOCOL_HTTPS) ||
+                str_contains($query, 'www.'))) {
+
             return true;
+        }
 
         return false;
     }
 
     private function normalizeUrl(string $url): string
     {
-
+        $query = parse_url($url, PHP_URL_QUERY);
+        var_dump($query);
         switch (true) {
             case $this->hasProtocol($url, self::PROTOCOL_HTTP):
                 $url = $this->removePort($url);
@@ -297,7 +305,7 @@ abstract class AbstractUrlIdGenerator extends AbstractUrlGenerator implements Ur
 
             // This leads to URLs with non-http protocols being prefixed with http
             // but is the expected behavior at this point and therefore can't be changed
-            case (!$this->hasProtocol($url) || $this->hasUrlParameter($url)):
+            case ($this->hasUrlParameter($url) || !$this->hasProtocol($url)):
                 $url = $this->removePort(self::PROTOCOL_HTTP . $url);
                 break;
 

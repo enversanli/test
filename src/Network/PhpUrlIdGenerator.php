@@ -9,8 +9,8 @@ final class PhpUrlIdGenerator extends AbstractUrlIdGenerator
     protected function generateId(string $url): string
     {
         //exit($url);
-        //$url = 'http://google.de:8080/hh';
-
+        //$url = 'http://semrush.com';
+        var_dump($url);
         $updatedUrl = base_convert(substr(sha1($url), 0, 16), 16, 10);
 
 
@@ -18,9 +18,9 @@ final class PhpUrlIdGenerator extends AbstractUrlIdGenerator
         //var_dump(substr(sha1($url), 0, 16));
         //var_dump(base_convert(substr(sha1($url), 0, 16), 16, 10));
 
-        //Expected :'12737925248020764514'
+        //Expected :'10482576072489022005'
         //Actual   :'12737925248020764862'
-
+        //exit($updatedUrl);
         return $updatedUrl;
     }
 

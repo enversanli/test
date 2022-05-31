@@ -46,8 +46,9 @@ final class PhpUrlIdGeneratorTest extends TestCase
     public function generate_withValidUrl_returnsUrlId(string $url, string $expectedId) : void
     {
 
-        $generatedId = (new PhpUrlIdGenerator())->generate($url);
+
         var_dump('+'.$url);
+        $generatedId = (new PhpUrlIdGenerator())->generate($url);
         //exit();
         self::assertSame(
             $expectedId,
