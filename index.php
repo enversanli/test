@@ -12,8 +12,7 @@ switch ($route){
     case $method == 'POST' && $route == '/upload' :
         $generator = (new \Semrush\HomeTest\Http\IdGenerator());
 
-        $generator->generate();
-        break;
+        return $generator->generate();
 
     default:
         echo "Uri cannot be found.";

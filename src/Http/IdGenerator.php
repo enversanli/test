@@ -1,7 +1,8 @@
 <?php
 namespace Semrush\HomeTest\Http;
 
-use Semrush\HomeTest\Tests\Network\PhpUrlIdGeneratorTest;
+
+use Semrush\HomeTest\Http\Actions\GenerateUrlAction;
 
 class IdGenerator
 {
@@ -18,6 +19,9 @@ class IdGenerator
 
     public function generate()
     {
+        $generateAction = new GenerateUrlAction();
 
+        $generateAction->index();
+        return ["Sivas"];
     }
 }
