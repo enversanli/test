@@ -62,7 +62,7 @@ final class PhpUrlIdGeneratorTest extends TestCase
      * @dataProvider provideGeneratorExpectations
      */
     public function generate_url($url, $expectedId){
-        $generatedId = (new UrlGenerator())->generate($url);
+        $generatedId = (new PhpUrlIdGenerator())->newGenerate($url);
 
         echo $url;
 

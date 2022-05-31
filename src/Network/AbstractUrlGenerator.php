@@ -4,31 +4,34 @@ namespace Semrush\HomeTest\Network;
 
 use Semrush\HomeTest\Support\HelperTool;
 
-class UrlGenerator implements UrlIdGenerator
+abstract class AbstractUrlGenerator implements UrlIdGenerator
 {
-    public function generate(string $url): string
+    protected function generateNewId(string $url): string
     {
         try {
-            //$url = 'https://enversanli.com';
+            //$url = 'http://www.arcticspas.co.uk/hot-tubs/arctic-yukon-hot-tub/';
 
             if (!$this->checkProtocol($url)) {
-                $url = self::PROTOCOL_HTTP. $url;
+                $url = self::PROTOCOL_HTTP . $url;
             }
 
             //Remove Port
             $url = $this->removePort($url);
 
             // Generate ID
-            $updatedUrl = $this->generateId($url);
+            $generatedId = $this->generateKey($url);
+
+            // Expected : 14531297383758074632
+
         } catch (\Exception $exception) {
             // Log error
             HelperTool::logger($exception->getMessage());
         }
 
-        return $updatedUrl;
+        return $generatedId;
     }
 
-    public function generateId($url)
+    protected function generateKey($url)
     {
         try {
             return base_convert(substr(sha1($url), 0, 16), 16, 10);
@@ -39,12 +42,17 @@ class UrlGenerator implements UrlIdGenerator
     }
 
     /** Remove port from URL */
-    public function removePort($url)
+    private function removePort($url)
     {
         try {
             $protocol = $this->getProtocol($url);
 
             $actualPort = parse_url($url, PHP_URL_PORT);
+
+            // If there is no port, go on
+            if (!$actualPort)
+                return $url;
+
             $defaultPort = $this->getDefaultPort($protocol);
 
             if ($actualPort == $defaultPort) {
@@ -90,12 +98,11 @@ class UrlGenerator implements UrlIdGenerator
             if (!empty($protocol))
                 return true;
 
-            return false;
         } catch (\Exception $exception) {
             // Log error
             HelperTool::logger($exception->getMessage());
-
-            return false;
         }
+
+        return false;
     }
 }

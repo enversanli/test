@@ -2,8 +2,9 @@
 
 namespace Semrush\HomeTest\Network;
 
-abstract class AbstractUrlIdGenerator implements UrlIdGenerator
+abstract class AbstractUrlIdGenerator extends AbstractUrlGenerator implements UrlIdGenerator
 {
+
     /**
      * Map of all hex representations of ASCII special chars.
      *
@@ -260,11 +261,9 @@ abstract class AbstractUrlIdGenerator implements UrlIdGenerator
      */
     private function hasProtocol(string $url, ?string $protocol = null): bool
     {
-
         if ($protocol == self::PROTOCOL_HTTPS && substr($url, 0, 8) == $protocol) {
             return true;
         }
-
 
         if ($protocol == self::PROTOCOL_HTTP && substr($url, 0, 7) == $protocol) {
             return true;
@@ -343,5 +342,9 @@ abstract class AbstractUrlIdGenerator implements UrlIdGenerator
         return $this->generateId($this->normalizeUrl($url));
     }
 
-    abstract protected function generateId(string $url): string;
+    final public function newGenerate(string $url): string
+    {
+        return $this->generateNewId($url);
+    }
+
 }

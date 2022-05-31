@@ -8,7 +8,8 @@ switch ($route){
         require_once "views/upload.html";
         break;
     case $method == 'POST' && $route == '/upload' :
-        (new \Semrush\HomeTest\Http\IdGenerator())->generate();
+       \Semrush\HomeTest\Http\IdGenerator::generate();
+
         break;
 
     default:

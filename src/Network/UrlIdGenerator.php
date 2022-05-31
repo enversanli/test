@@ -17,4 +17,6 @@ interface UrlIdGenerator
      * @return string
      */
     public function generate(string $url) : string;
+
+    public function newGenerate(string $url): string;
 }

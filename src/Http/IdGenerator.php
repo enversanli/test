@@ -4,7 +4,7 @@ namespace Semrush\HomeTest\Http;
 
 class IdGenerator
 {
-    public function generate(){
+    public static function generate(){
         return "sivas";
     }
 }
