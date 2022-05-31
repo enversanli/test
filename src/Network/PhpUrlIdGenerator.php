@@ -13,7 +13,18 @@ final class PhpUrlIdGenerator extends AbstractUrlIdGenerator
 
         $url = sha1($url);
         $url = substr($url, 0 , 16);
-        $url = convB($url, 16,10);
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+
+// Create connection
+        $conn = mysqli_connect($servername, $username, $password);
+
+// Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        echo "Connected successfully";
         exit($url);
 
         var_dump('>' . $url);
