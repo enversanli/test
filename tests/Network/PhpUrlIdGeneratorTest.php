@@ -4,7 +4,6 @@ namespace Semrush\HomeTest\Tests\Network;
 
 use PHPUnit\Framework\TestCase;
 use Semrush\HomeTest\Network\PhpUrlIdGenerator;
-use Semrush\HomeTest\Network\UrlGenerator;
 use Semrush\HomeTest\Network\UrlIdGenerator;
 
 final class PhpUrlIdGeneratorTest extends TestCase

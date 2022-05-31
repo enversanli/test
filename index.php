@@ -1,4 +1,6 @@
 <?php
+require_once('src/Http/IdGenerator.php');
+
 $route =  $_SERVER['REQUEST_URI'];
 $method =  $_SERVER['REQUEST_METHOD'];
 
@@ -8,8 +10,9 @@ switch ($route){
         require_once "views/upload.html";
         break;
     case $method == 'POST' && $route == '/upload' :
-       \Semrush\HomeTest\Http\IdGenerator::generate();
+        $generator = (new \Semrush\HomeTest\Http\IdGenerator());
 
+        $generator->generate();
         break;
 
     default:
