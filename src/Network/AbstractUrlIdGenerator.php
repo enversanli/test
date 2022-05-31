@@ -261,12 +261,12 @@ abstract class AbstractUrlIdGenerator implements UrlIdGenerator
     private function hasProtocol(string $url, ?string $protocol = null): bool
     {
 
-        if ($protocol == self::PROTOCOL_HTTPS && substr($url, 0, 8) == $protocol){
+        if ($protocol == self::PROTOCOL_HTTPS && substr($url, 0, 8) == $protocol) {
             return true;
         }
 
 
-        if ($protocol == self::PROTOCOL_HTTP && substr($url, 0, 7) == $protocol){
+        if ($protocol == self::PROTOCOL_HTTP && substr($url, 0, 7) == $protocol) {
             return true;
         }
 
@@ -299,7 +299,6 @@ abstract class AbstractUrlIdGenerator implements UrlIdGenerator
             // This leads to URLs with non-http protocols being prefixed with http
             // but is the expected behavior at this point and therefore can't be changed
             case (!$this->hasProtocol($url) || $this->hasUrlParameter($url)):
-
                 $url = $this->removePort(self::PROTOCOL_HTTP . $url);
                 break;
 

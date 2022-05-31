@@ -27,6 +27,14 @@ class HelperTool
     }
 
     public static function logger($errorMessage){
+        $log = self::getLogMessage($errorMessage);
+
+        file_put_contents('logs.txt', $log . PHP_EOL, FILE_APPEND | LOCK_EX);
+
+        return true;
+    }
+
+    public static function getLogMessage($errorMessage){
         return 'timeStamp: ' . date('Y-m-d H:i:s') . ' error: ' . $errorMessage;
     }
 }
